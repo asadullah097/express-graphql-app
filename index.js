@@ -2,30 +2,25 @@ var express = require('express');
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
 
-var schema = buildSchema(`
- 
-  type profile{
+var schema = buildSchema(` 
+  type Profile{
     name: String
     email:String
-    age:Int
-    weight:Float
-    IsDeveloper:Boolean
-    
   }
   type Query {
-    Employee:profile,
+    Employee(id:Int):Profile,
+    IsDeveloper:Boolean
   },
 
 `);
 
 var root = {
-  Employee: () => {
+  IsDeveloper: () => true,
+  Employee: ({ id }) => {
+    console.log(id);
     return {
       name: "asad",
       email: "asad@gmail.com",
-      age: 25,
-      weight: 80.5,
-      isDeveloper: true
     }
   }
 };
